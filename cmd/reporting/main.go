@@ -1,9 +1,9 @@
 package main
 
 import (
-	"arch-async/pkg/async"
 	"encoding/json"
 	"fmt"
+	"github.com/Sinea/arch-async/pkg/async"
 )
 
 type UserStateChanged struct {
