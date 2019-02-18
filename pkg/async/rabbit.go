@@ -86,7 +86,7 @@ func (r *rabbit) Read() <-chan Message {
 				nil,
 			)
 
-			msgs, _ := ch.Consume(
+			delivery, _ := ch.Consume(
 				q.Name,
 				"",
 				false,
@@ -96,7 +96,7 @@ func (r *rabbit) Read() <-chan Message {
 				nil,
 			)
 
-			for d := range msgs {
+			for d := range delivery {
 				time.Sleep(time.Millisecond * 30)
 				if err := d.Ack(false); err != nil {
 					fmt.Println(err)
