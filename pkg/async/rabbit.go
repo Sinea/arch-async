@@ -3,8 +3,8 @@ package async
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/labstack/gommon/log"
 	"github.com/streadway/amqp"
+	"log"
 	"time"
 )
 

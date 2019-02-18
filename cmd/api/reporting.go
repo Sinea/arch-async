@@ -1,7 +1,7 @@
 package main
 
 import (
-	"arch-async/pkg/async"
+	"github.com/Sinea/arch-async/pkg/async"
 	"log"
 	"time"
 )
