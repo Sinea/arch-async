@@ -1,0 +1,23 @@
+FROM golang:alpine as base
+
+RUN apk update \
+    && apk add --virtual build-dependencies \
+        build-base \
+        gcc \
+        wget \
+        git \
+    && apk add \
+        bash
+
+
+FROM base
+
+ADD . ./app
+WORKDIR ./app
+ENV GO111MODULE=on
+
+RUN CGO_ENABLED=0 go build .
+
+EXPOSE 1323/tcp
+
+ENTRYPOINT ["/go/app/api"]

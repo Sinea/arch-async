@@ -13,7 +13,14 @@ type UserStateChanged struct {
 func main() {
 	fmt.Println("Starting reporting service")
 
-	pipe, _ := async.New(async.RabbitConfig{Url: "amqp://guest:guest@localhost:5672/"})
+	pipe, err := async.New(async.RabbitConfig{Url: "amqp://guest:guest@broker:5672/"})
+
+	if err != nil {
+		fmt.Printf("error connecting pipes %s", err)
+		return
+	}
+
+	fmt.Println("We're in business")
 
 	for m := range pipe.Read() {
 		switch m.Kind {

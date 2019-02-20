@@ -1,7 +1,29 @@
 version: "2"
+
 services:
   broker:
     image: "rabbitmq:3-management"
+    container_name: broker
     ports:
-        - "15672:15672"
-        - "5672:5672"
+      - "15672:15672"
+      - "5672:5672"
+
+  api:
+    container_name: api
+    build:
+      context: ./cmd/api
+      dockerfile: dockerfile
+    ports:
+      - "1323:1323"
+    depends_on:
+      - "broker"
+    restart: always
+
+  reporting:
+    container_name: reporting
+    build:
+      context: ./cmd/reporting
+      dockerfile: dockerfile
+    depends_on:
+      - "broker"
+    restart: always
