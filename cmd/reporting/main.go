@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Sinea/arch-async/pkg/async"
+	"log"
+	"os"
+	"strings"
 )
 
 type UserStateChanged struct {
@@ -11,12 +14,19 @@ type UserStateChanged struct {
 }
 
 func main() {
-	fmt.Println("Starting reporting service")
+	fmt.Println("Starting REPORTING")
+
+	env := os.Getenv("ENVIRONMENT")
+	if len(strings.TrimSpace(env)) == 0 {
+		log.Fatal("cannot start with empty ENVIRONMENT")
+	} else {
+		fmt.Printf("Running in envoronment '%s'\n", env)
+	}
 
 	pipe, err := async.New(async.RabbitConfig{Url: "amqp://guest:guest@broker:5672/"})
 
 	if err != nil {
-		fmt.Printf("error connecting pipes %s", err)
+		fmt.Printf("error connecting pipes %s\n", err)
 		return
 	}
 

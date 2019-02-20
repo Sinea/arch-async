@@ -1,12 +1,5 @@
 FROM golang:alpine as base
-RUN apk update \
-    && apk add --virtual build-dependencies \
-        build-base \
-        gcc \
-        wget \
-        git \
-    && apk add \
-        bash
+RUN apk update && apk add --virtual git && apk add bash
 
 # Build the app
 FROM base as builder
@@ -18,4 +11,5 @@ RUN CGO_ENABLED=0 go build ./cmd/reporting
 # Final image
 FROM alpine:3.9
 COPY --from=builder /go/app/reporting .
-ENTRYPOINT ["reporting"]
+ENV ENVIRONMENT y
+ENTRYPOINT ["./reporting"]

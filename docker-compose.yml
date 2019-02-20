@@ -14,10 +14,12 @@ services:
       context: .
       dockerfile: ./cmd/api/Dockerfile
     ports:
-      - "1323:1323"
+      - "1024:80"
     depends_on:
       - "broker"
     restart: always
+    env_file:
+      - .${target}.env
 
   reporting:
     container_name: reporting
@@ -27,3 +29,5 @@ services:
     depends_on:
       - "broker"
     restart: always
+    env_file:
+      - .${target}.env
