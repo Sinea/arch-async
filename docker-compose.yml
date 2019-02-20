@@ -11,8 +11,8 @@ services:
   api:
     container_name: api
     build:
-      context: ./cmd/api
-      dockerfile: dockerfile
+      context: .
+      dockerfile: ./cmd/api/Dockerfile
     ports:
       - "1323:1323"
     depends_on:
@@ -22,8 +22,8 @@ services:
   reporting:
     container_name: reporting
     build:
-      context: ./cmd/reporting
-      dockerfile: dockerfile
+      context: .
+      dockerfile: ./cmd/reporting/Dockerfile
     depends_on:
       - "broker"
     restart: always

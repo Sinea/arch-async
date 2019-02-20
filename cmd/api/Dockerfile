@@ -1,5 +1,4 @@
 FROM golang:alpine as base
-
 RUN apk update \
     && apk add --virtual build-dependencies \
         build-base \
@@ -9,13 +8,15 @@ RUN apk update \
     && apk add \
         bash
 
-
-FROM base
-
+# Build the app
+FROM base as builder
 ADD . ./app
 WORKDIR ./app
 ENV GO111MODULE=on
+RUN CGO_ENABLED=0 go build ./cmd/api/
 
-RUN CGO_ENABLED=0 go build .
-
-ENTRYPOINT ["/go/app/reporting"]
+# Final image
+FROM alpine:3.9
+COPY --from=builder /go/app/api .
+EXPOSE 1323/tcp
+ENTRYPOINT ["api"]
