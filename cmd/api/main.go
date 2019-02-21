@@ -3,24 +3,18 @@ package main
 import (
 	"fmt"
 	"github.com/Sinea/arch-async/pkg/async"
+	"github.com/Sinea/arch-async/pkg/environment"
 	"github.com/labstack/echo"
-	"log"
 	"net/http"
-	"os"
-	"strings"
 )
 
 func main() {
 	fmt.Println("Starting API")
 
-	env := os.Getenv("ENVIRONMENT")
-	if len(strings.TrimSpace(env)) == 0 {
-		log.Fatal("cannot start with empty ENVIRONMENT")
-	} else {
-		fmt.Printf("Running in envoronment '%s'\n", env)
-	}
+	rabbitUrl := environment.Get("broker_url")
+	address := fmt.Sprintf(":%s", environment.Get("port", "80"))
 
-	pipe, err := async.New(async.RabbitConfig{Url: "amqp://guest:guest@broker:5672/"})
+	pipe, err := async.New(async.RabbitConfig{Url: rabbitUrl})
 
 	if err != nil {
 		fmt.Printf("Error creating pipe %s\n", err)
@@ -29,14 +23,14 @@ func main() {
 
 	fmt.Println("We're in business")
 
+	// Create the reporting service
 	reportingService := &fastReportingService{pipe}
 
-	//reportingService := &lazyReportingService{}
-
+	// Run the HTTP server
 	e := echo.New()
 	e.POST("/", func(c echo.Context) error {
 		reportingService.ComputeStats("john")
 		return c.String(http.StatusOK, "")
 	})
-	e.Logger.Fatal(e.Start(":80"))
+	e.Logger.Fatal(e.Start(address))
 }

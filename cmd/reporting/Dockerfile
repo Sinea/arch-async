@@ -11,5 +11,4 @@ RUN CGO_ENABLED=0 go build ./cmd/reporting
 # Final image
 FROM alpine:3.9
 COPY --from=builder /go/app/reporting .
-ENV ENVIRONMENT y
 ENTRYPOINT ["./reporting"]

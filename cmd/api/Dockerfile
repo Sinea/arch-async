@@ -11,6 +11,5 @@ RUN CGO_ENABLED=0 go build ./cmd/api/
 # Final image
 FROM alpine:3.9
 COPY --from=builder /go/app/api .
-ENV ENVIRONMENT x
 EXPOSE 80/tcp
 ENTRYPOINT ["./api"]
