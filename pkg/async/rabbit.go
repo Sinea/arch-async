@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+const queue = "events"
+
 type RabbitConfig struct {
 	Url string
 }
@@ -39,7 +41,7 @@ func (r *rabbit) Write(kind string, payload interface{}) error {
 
 	if r.queue == nil {
 		q, err := r.channel.QueueDeclare(
-			"hello",
+			queue,
 			false,
 			false,
 			false,
@@ -78,7 +80,7 @@ func (r *rabbit) Read() <-chan Message {
 			ch, _ := r.connection.Channel()
 
 			q, _ := ch.QueueDeclare(
-				"hello",
+				queue,
 				false,
 				false,
 				false,
@@ -110,7 +112,7 @@ func (r *rabbit) Read() <-chan Message {
 			}
 
 			if err := ch.Close(); err != nil {
-				log.Fatalf("Bad 2")
+				log.Fatalf("Also bad")
 			}
 		}()
 	}
