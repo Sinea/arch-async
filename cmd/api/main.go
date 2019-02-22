@@ -11,8 +11,17 @@ import (
 func main() {
 	fmt.Println("Starting API")
 
-	rabbitUrl := environment.Get("broker_url")
-	address := fmt.Sprintf(":%s", environment.Get("port", "80"))
+	rabbitUrl, err := environment.Get("broker_url")
+	if err != nil {
+		panic(err)
+	}
+
+	port, err := environment.Get("port", "80")
+	if err != nil {
+		panic(err)
+	}
+
+	address := fmt.Sprintf(":%s", port)
 
 	pipe, err := async.New(async.RabbitConfig{Url: rabbitUrl})
 

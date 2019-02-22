@@ -22,8 +22,8 @@ type rabbit struct {
 }
 
 // Dirty internals
-func (r *rabbit) Write(kind string, payload interface{}) error {
-	data, err := bundleMessage(kind, payload)
+func (r *rabbit) Write(tag string, payload interface{}) error {
+	data, err := bundleMessage(tag, payload)
 
 	if err != nil {
 		return err
