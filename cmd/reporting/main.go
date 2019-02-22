@@ -26,7 +26,7 @@ func main() {
 	fmt.Println("We're in business")
 
 	for m := range pipe.Read() {
-		switch m.Kind {
+		switch m.Tag {
 		case "stats_changed":
 			event := UserStateChanged{}
 			if json.Unmarshal(m.Payload, &event) == nil {

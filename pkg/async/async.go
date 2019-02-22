@@ -5,12 +5,12 @@ import (
 )
 
 type Message struct {
-	Kind    string `json:"kind"`
+	Tag     string `json:"tag"`
 	Payload []byte `json:"payload"`
 }
 
 type Writer interface {
-	Write(kind string, payload interface{}) error
+	Write(tag string, payload interface{}) error
 }
 
 type Reader interface {

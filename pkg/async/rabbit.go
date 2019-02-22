@@ -120,14 +120,14 @@ func (r *rabbit) Read() <-chan Message {
 	return r.out
 }
 
-func bundleMessage(kind string, payload interface{}) (data []byte, err error) {
+func bundleMessage(tag string, payload interface{}) (data []byte, err error) {
 	payloadBytes, err := json.Marshal(payload)
 
 	if err != nil {
 		return
 	}
 
-	m := Message{Kind: kind, Payload: payloadBytes}
+	m := Message{Tag: tag, Payload: payloadBytes}
 	data, err = json.Marshal(m)
 	if err != nil {
 		return
