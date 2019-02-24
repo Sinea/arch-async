@@ -8,7 +8,7 @@ up:
 down:
 	docker-compose down
 
-qainstall:
+lintinstall:
 	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b ./bin $(GOLANGCI_LINT_VERSION)
 
 test:
@@ -18,7 +18,7 @@ coverage:
 	go test ./... -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
 
 lint:
-	golangci-lint run
+	./bin/golangci-lint run
 
 bench:
 	GOMAXPROCS=4 go test -bench=. -benchtime=10s -benchmem ./...
