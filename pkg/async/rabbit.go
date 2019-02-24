@@ -12,7 +12,7 @@ import (
 const queue = "events"
 
 type RabbitConfig struct {
-	Url string
+	URL string
 }
 
 type rabbit struct {
@@ -127,7 +127,7 @@ func bundleMessage(tag string, payload interface{}) ([]byte, error) {
 }
 
 func newRabbit(config RabbitConfig) (r *rabbit, err error) {
-	conn, err := amqp.Dial(config.Url)
+	conn, err := amqp.Dial(config.URL)
 
 	if err != nil {
 		return nil, err

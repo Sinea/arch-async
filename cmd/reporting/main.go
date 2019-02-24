@@ -16,12 +16,12 @@ type UserStateChanged struct {
 func main() {
 	fmt.Println("Starting REPORTING")
 
-	rabbitUrl, err := environment.Get("broker_url")
+	rabbitURL, err := environment.Get("broker_url")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	pipe, err := async.New(async.RabbitConfig{Url: rabbitUrl})
+	pipe, err := async.New(async.RabbitConfig{URL: rabbitURL})
 	if err != nil {
 		log.Fatalf("error connecting pipes %s\n", err)
 	}

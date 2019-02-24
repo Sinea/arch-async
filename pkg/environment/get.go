@@ -7,13 +7,13 @@ import (
 )
 
 func Get(key string, defaultValue ...string) (string, error) {
-	if len(strings.TrimSpace(key)) == 0 {
+	if strings.TrimSpace(key) == "" {
 		return "", fmt.Errorf("empty key")
 	}
 
 	value := os.Getenv(key)
 
-	if len(strings.TrimSpace(value)) == 0 {
+	if strings.TrimSpace(value) == "" {
 		if len(defaultValue) > 0 {
 			return defaultValue[0], nil
 		}

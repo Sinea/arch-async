@@ -14,7 +14,7 @@ import (
 func main() {
 	log.Println("Starting API")
 
-	rabbitUrl, err := environment.Get("broker_url")
+	rabbitURL, err := environment.Get("broker_url")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,7 +26,7 @@ func main() {
 
 	address := fmt.Sprintf(":%s", port)
 
-	pipe, err := async.New(async.RabbitConfig{Url: rabbitUrl})
+	pipe, err := async.New(async.RabbitConfig{URL: rabbitURL})
 	if err != nil {
 		log.Fatal(err)
 	}
