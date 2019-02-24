@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	"github.com/Sinea/arch-async/pkg/async"
 	"github.com/Sinea/arch-async/pkg/environment"
 )
@@ -16,13 +18,12 @@ func main() {
 
 	rabbitUrl, err := environment.Get("broker_url")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	pipe, err := async.New(async.RabbitConfig{Url: rabbitUrl})
 	if err != nil {
-		fmt.Printf("error connecting pipes %s\n", err)
-		return
+		log.Fatalf("error connecting pipes %s\n", err)
 	}
 
 	fmt.Println("We're in business")
