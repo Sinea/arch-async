@@ -3,15 +3,16 @@ package async
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 const queue = "events"
 
 type RabbitConfig struct {
-	Url string
+	URL string
 }
 
 type rabbit struct {
@@ -56,7 +57,7 @@ func (r *rabbit) Write(tag string, payload interface{}) error {
 		r.queue = &q
 	}
 
-	err = r.channel.Publish(
+	return r.channel.Publish(
 		"",
 		r.queue.Name,
 		false,
@@ -65,12 +66,6 @@ func (r *rabbit) Write(tag string, payload interface{}) error {
 			ContentType: "application/json",
 			Body:        data,
 		})
-
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (r *rabbit) Read() <-chan Message {
@@ -120,24 +115,19 @@ func (r *rabbit) Read() <-chan Message {
 	return r.out
 }
 
-func bundleMessage(tag string, payload interface{}) (data []byte, err error) {
+func bundleMessage(tag string, payload interface{}) ([]byte, error) {
 	payloadBytes, err := json.Marshal(payload)
 
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	m := Message{Tag: tag, Payload: payloadBytes}
-	data, err = json.Marshal(m)
-	if err != nil {
-		return
-	}
-
-	return
+	return json.Marshal(m)
 }
 
 func newRabbit(config RabbitConfig) (r *rabbit, err error) {
-	conn, err := amqp.Dial(config.Url)
+	conn, err := amqp.Dial(config.URL)
 
 	if err != nil {
 		return nil, err

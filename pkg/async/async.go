@@ -23,9 +23,9 @@ type Pipe interface {
 }
 
 func New(config interface{}) (Pipe, error) {
-	switch config.(type) {
+	switch c := config.(type) {
 	case RabbitConfig:
-		return newRabbit(config.(RabbitConfig))
+		return newRabbit(c)
 	default:
 		return nil, errors.New("unknown config type")
 	}
