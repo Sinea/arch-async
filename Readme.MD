@@ -1,4 +1,8 @@
-##### Benchmark with operations sent to a background worker
+
+**This is not a complete implementation, but a demo showing how a simple architectural decision can offer a performance boost by sending non critical computations to some background workers.**
+
+Benchmark with operations sent to a background worker:
+
 ```
 Concurrency Level:      100
 Time taken for tests:   7.242 seconds
@@ -33,7 +37,7 @@ Percentage of the requests served within a certain time (ms)
  100%    247 (longest request)
  ```
 
-##### Benchmark with operations done inside the request
+Benchmark with operations done inside the request:
 ```
 Concurrency Level:      100
 Time taken for tests:   51.053 seconds
