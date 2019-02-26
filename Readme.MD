@@ -67,3 +67,5 @@ Percentage of the requests served within a certain time (ms)
   99%     53
  100%     64 (longest request)
 ```
+
+** Both performed on the same hardware
