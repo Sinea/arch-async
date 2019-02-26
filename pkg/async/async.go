@@ -14,7 +14,7 @@ type Writer interface {
 }
 
 type Reader interface {
-	Read() <-chan Message
+	Read() (<-chan Message, <-chan error)
 }
 
 type Pipe interface {

@@ -27,16 +27,24 @@ func main() {
 	}
 
 	fmt.Println("We're in business")
+	messages, errors := pipe.Read()
 
-	for m := range pipe.Read() {
-		switch m.Tag {
-		case "stats_changed":
-			event := UserStateChanged{}
-			if json.Unmarshal(m.Payload, &event) == nil {
-				fmt.Printf("Computing for '%s'\n", event.User)
+Loop:
+	for {
+		select {
+		case message := <-messages:
+			switch message.Tag {
+			case "stats_changed":
+				event := UserStateChanged{}
+				if json.Unmarshal(message.Payload, &event) == nil {
+					fmt.Printf("Computing for '%s'\n", event.User)
+				}
+			default:
+				fmt.Println("unknown message type")
 			}
-		default:
-			fmt.Println("unknown message type")
+		case err := <-errors:
+			log.Fatal(err)
+			break Loop
 		}
 	}
 }
